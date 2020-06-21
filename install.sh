@@ -13,10 +13,11 @@ wget https://github.com/neovim/neovim/releases/download/v0.4.3/nvim-linux64.tar.
 tar -xf nvim-linux64.tar.gz
 cp nvim-linux64/bin/nvim ~/bin
 
-# Install neovim/vim configuration
+# Install neovim/vim configuration and Vundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 cp -r nvim ~/.config/nvim
 cp .vimrc ~/.vimrc
-cp -r ~/.vim/colors ~/.vim/
+cp -r .vim/colors ~/.vim/
 
 # Install oh-my-zsh
 sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -33,8 +34,16 @@ cp kitty.conf ~/.config/kitty/
 # Install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+# Install dwm
+wget https://dl.suckless.org/dwm/dwm-6.2.tar.gz
+tar -xf dwm-6.2.tar.gz
+cp dwm-config.h dwm-6.2/config.h
+cd dwm-6.2
+make
+sudo make install
+
 # Install aseprite
-$ORIGINAL_DIR=$(pwd)
+ORIGINAL_DIR=$(pwd)
 git clone --recursive https://github.com/aseprite/aseprite/
 cd aseprite
 wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip
