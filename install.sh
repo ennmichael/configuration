@@ -35,12 +35,10 @@ cp kitty.conf ~/.config/kitty/
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # Install dwm
-wget https://dl.suckless.org/dwm/dwm-6.2.tar.gz
-tar -xf dwm-6.2.tar.gz
-cp dwm-config.h dwm-6.2/config.h
-cd dwm-6.2
+cd dwm
 make
 sudo make install
+cd ..
 
 # Install aseprite
 ORIGINAL_DIR=$(pwd)
