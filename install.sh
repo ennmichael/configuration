@@ -31,9 +31,3 @@ git clone --depth 1 git@github.com:dexpota/kitty-themes.git ~/.config/kitty/kitt
 # Install the kitty configuration
 cp kitty.conf ~/.config/kitty/
 
-# Install dwm
-cd dwm
-make
-sudo make install
-cd ..
-
