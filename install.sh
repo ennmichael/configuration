@@ -31,30 +31,9 @@ git clone --depth 1 git@github.com:dexpota/kitty-themes.git ~/.config/kitty/kitt
 # Install the kitty configuration
 cp kitty.conf ~/.config/kitty/
 
-# Install rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
 # Install dwm
 cd dwm
 make
 sudo make install
 cd ..
 
-# Install aseprite
-ORIGINAL_DIR=$(pwd)
-git clone --recursive https://github.com/aseprite/aseprite/
-cd aseprite
-wget https://github.com/aseprite/skia/releases/download/m81-b607b32047/Skia-Linux-Release-x64.zip
-unzip Skia-Linux-Release-x64.zip -d skia
-mkdir build
-cd build
-cmake \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DLAF_BACKEND=skia \
-  -DSKIA_DIR=$ORIGINAL_DIR/aseprite/skia \
-  -DSKIA_LIBRARY_DIR=$ORIGINAL_DIR/aseprite/skia/out/Release-x64 \
-  -G Ninja \
-  ..
-cd $ORIGINAL_DIR
-cp -r aseprite ~/bin/aseprite.d
-cp aseprite.start ~/bin/aseprite
