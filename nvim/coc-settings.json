@@ -1,0 +1,5 @@
+{
+    "typescript.format.enabled": false,
+    "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescript.tsx", "rust", "css", "html"],
+    "prettier.tabWidth": 4
+}
