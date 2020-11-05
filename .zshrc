@@ -4,6 +4,9 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$PATH
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+# Get IntelliJ working with dwm.
+export _JAVA_AWT_WM_NONREPARENTING=1
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -104,4 +107,7 @@ export PATH=$PATH:~/node-v12.2.0-linux-x64/
 
 alias vim=nvim
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export DENO_INSTALL="/home/doggs/.deno"
+export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/doggs/emsdk:/home/doggs/emsdk/node/12.18.1_64bit/bin:/home/doggs/emsdk/upstream/emscripten:$PATH"
+
+

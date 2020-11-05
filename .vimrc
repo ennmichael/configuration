@@ -20,6 +20,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'fatih/vim-go'
+Plugin 'rhysd/vim-clang-format'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -38,6 +39,7 @@ filetype plugin indent on    " required
 
 set nowrap
 set nohlsearch
+set nu
 
 map <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen=1
@@ -226,3 +228,18 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+noremap <C-A-L> :ClangFormat<CR>:w<CR>
+
+" Auto-close braces. Tip: use C-V to escape this behaviour.
+inoremap " ""<left>
+inoremap """ ""
+inoremap ' ''<left>
+inoremap '' ''
+inoremap ( ()<left>
+inoremap () ()
+inoremap [ []<left>
+inoremap [] []
+inoremap { {}<left>
+inoremap {} {}
+inoremap {<CR> {<CR>}<ESC>O
