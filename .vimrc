@@ -71,6 +71,8 @@ autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescript
 
 colors codedark
 
+nnoremap <F1> /{}<CR>a<CR><ESC>O
+
 let g:airline_theme='bubblegum'
 
 " CoC config
