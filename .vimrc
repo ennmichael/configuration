@@ -21,6 +21,9 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'fatih/vim-go'
 Plugin 'rhysd/vim-clang-format'
+Plugin 'jparise/vim-graphql'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -41,8 +44,8 @@ set nowrap
 set nohlsearch
 set nu
 
-map <C-n> :NERDTreeToggle<CR>
-let g:NERDTreeQuitOnOpen=1
+map <C-n> :NERDTreeFocus<CR>
+let g:NERDTreeQuitOnOpen=0
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeWinPos="right"
 
@@ -52,18 +55,19 @@ let g:go_def_mapping_enabled=0
 
 let g:rustfmt_autosave=1
 
-" The prettier plugin doesn't format TSX files for some reason
-autocmd BufWrite *.tsx :CocCommand prettier.formatFile
-
 " Return cursor to previous position when re-opening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal! g'\"" | endif
 endif
 
+autocmd FileType c ClangFormatAutoEnable
+
 set autoindent expandtab smarttab tabstop=4 shiftwidth=4
 set laststatus=2
 filetype plugin indent on
+
+autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescriptreact set shiftwidth=2
 
 colors codedark
 
@@ -229,17 +233,3 @@ nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
-noremap <C-A-L> :ClangFormat<CR>:w<CR>
-
-" Auto-close braces. Tip: use C-V to escape this behaviour.
-inoremap " ""<left>
-inoremap """ ""
-inoremap ' ''<left>
-inoremap '' ''
-inoremap ( ()<left>
-inoremap () ()
-inoremap [ []<left>
-inoremap [] []
-inoremap { {}<left>
-inoremap {} {}
-inoremap {<CR> {<CR>}<ESC>O

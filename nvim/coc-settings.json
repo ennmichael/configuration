@@ -1,28 +1,31 @@
 {
-    "typescript.format.enabled": false,
-    "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescript.tsx", "rust", "css", "html"],
-    "prettier.tabWidth": 4,
-    "languageserver": {
-        "ccls": {
-            "command": "ccls",
-            "filetypes": [
-                "c",
-                "cpp",
-                "objc",
-                "objcpp"
-            ],
-            "rootPatterns": [
-                ".ccls",
-                "compile_commands.json",
-                ".vim/",
-                ".git/",
-                ".hg/"
-            ],
-            "initializationOptions": {
-                "cache": {
-                    "directory": "/tmp/ccls"
-                }
-            }
+  "typescript.format.enabled": false,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "javascriptreact",
+    "rust",
+    "css",
+    "html",
+    "json"
+  ],
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "objc", "objcpp"],
+      "rootPatterns": [
+        ".ccls",
+        "compile_commands.json",
+        ".vim/",
+        ".git/",
+        ".hg/"
+      ],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls"
         }
+      }
     }
+  }
 }

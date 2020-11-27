@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.cargo/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -108,6 +108,9 @@ export PATH=$PATH:~/node-v12.2.0-linux-x64/
 alias vim=nvim
 
 export DENO_INSTALL="/home/doggs/.deno"
-export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/doggs/emsdk:/home/doggs/emsdk/node/12.18.1_64bit/bin:/home/doggs/emsdk/upstream/emscripten:$PATH"
+export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/xc8/v2.31/bin:/opt/microchip/xc8/v2.31/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/doggs/emsdk:/home/doggs/emsdk/node/12.18.1_64bit/bin:/home/doggs/emsdk/upstream/emscripten:$PATH"
 
 
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /home/niksa/bin/terraform terraform
