@@ -17,13 +17,16 @@ Plugin 'posva/vim-vue'
 Plugin 'neoclide/coc.nvim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'leafgarland/typescript-vim'
+Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'fatih/vim-go'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'jparise/vim-graphql'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plugin 'sheerun/vim-polyglot'
+Plugin 'OmniSharp/omnisharp-vim'
+Plugin 'dense-analysis/ale'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -40,20 +43,36 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-set nowrap
-set nohlsearch
-set nu
 
-map <C-n> :NERDTreeFocus<CR>
-let g:NERDTreeQuitOnOpen=0
-let g:NERDTreeMinimalUI=1
-let g:NERDTreeWinPos="right"
+"""""""" Status line settings
 
-let g:go_code_completion_enabled=0
-let g:go_imports_autosave=1
-let g:go_def_mapping_enabled=0
 
-let g:rustfmt_autosave=1
+set laststatus=2
+let g:airline_theme='bubblegum'
+
+
+"""""""" Colors
+
+
+colors codedark
+
+
+"""""""" Terminal emulation
+
+
+tnoremap <Esc> <C-\><C-n>
+
+
+"""""""" Indentation settings
+
+
+filetype plugin indent on
+set autoindent expandtab smarttab tabstop=4 shiftwidth=4
+autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescriptreact,yaml,yml set shiftwidth=2
+
+
+"""""""" Quality of life settings and keybindings
+
 
 " Return cursor to previous position when re-opening a file
 if has("autocmd")
@@ -61,21 +80,26 @@ if has("autocmd")
     \| exe "normal! g'\"" | endif
 endif
 
-autocmd FileType c ClangFormatAutoEnable
-
-set autoindent expandtab smarttab tabstop=4 shiftwidth=4
-set laststatus=2
-filetype plugin indent on
-
-autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescriptreact set shiftwidth=2
-
-colors codedark
-
 nnoremap <F1> /{}<CR>a<CR><ESC>O
+set nowrap
+set nohlsearch
+set nu
 
-let g:airline_theme='bubblegum'
 
-" CoC config
+"""""""" NERDTree settings
+
+
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeQuitOnOpen=0
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeWinPos="right"
+let g:NERDTreeQuitOnOpen=1
+let g:NERDTreeChDirMode=2
+let g:NERDTreeWinSize=55
+
+
+"""""""" COC/OmniSharp settings
+
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -103,6 +127,13 @@ else
   set signcolumn=yes
 endif
 
+let g:OmniSharp_highlighting=0
+let g:ale_pattern_options={'': {'ale_enabled': 0},'\.cs$': {'ale_enabled': 1}}
+
+
+"""""""" COC/OmniSharp keybindings
+
+
 " Map <tab> for trigger completion, completion confirm, snippet expand and jump
 " like VSCode. 
 
@@ -123,10 +154,6 @@ let g:coc_snippet_next = '<tab>'
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
 
-" Fix annoying inconsistencies for plugins treating ESC slightly
-" better than Ctrl-C
-inoremap <C-C> <ESC>
-
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
@@ -137,20 +164,33 @@ else
 endif
 
 " Navigating diagnostics
-nmap <silent> <F2> <Plug>(coc-diagnostic-next)
-nmap <silent> <F14> <Plug>(coc-diagnostic-prev)
+autocmd BufEnter * nmap <silent> <F2> <Plug>(coc-diagnostic-next)
+autocmd BufEnter *.cs nmap <silent> <F2> :ALENextWrap<CR>
+autocmd BufEnter * nmap <silent> <F14> <Plug>(coc-diagnostic-prev)
+autocmd BufEnter *.cs nmap <silent> <F14> :ALEPreviousWrap<CR>
 
 " GoTo code navigation.
-nmap <silent> <F12> <Plug>(coc-definition)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+autocmd BufEnter * nmap <silent> gd <Plug>(coc-definition)
+autocmd BufEnter *.cs nmap <silent> gd :OmniSharpGotoDefinition<CR>
 
-nmap <silent> ga <Plug>(coc-codeaction-line)
+autocmd BufEnter * nmap <silent> gi <Plug>(coc-implementation)
+autocmd BufEnter *.cs nmap <silent> gi :OmniSharpFindImplementations<CR>
+
+autocmd BufEnter * nmap <silent> gr <Plug>(coc-references)
+autocmd BufEnter *.cs nmap <silent> gr :OmniSharpFindReferences<CR>
+
+autocmd BufEnter * nmap <silent> gy <Plug>(coc-type-definition)
+
+autocmd BufEnter * nmap <silent> ga <Plug>(coc-codeaction-line)
+autocmd BufEnter *.cs nmap <silent> ga <Plug>(omnisharp_code_actions)
 
 " Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+autocmd BufEnter * nnoremap <silent> K :call <SID>show_documentation()<CR>
+autocmd BufEnter *.cs nnoremap <silent> K :OmniSharpDocumentation<CR>
+
+" Formatting code
+autocmd BufEnter * nnoremap L <Plug>(coc-format)
+autocmd BufEnter *.cs nnoremap L :OmniSharpCodeFormat<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -162,14 +202,11 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold *.cs OmniSharpTypeLookup
 
 " Symbol renaming.
-nmap <F6> <Plug>(coc-rename)
-nmap <qr> <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+autocmd BufEnter * nmap <F6> <Plug>(coc-rename)
+autocmd BufEnter *.cs nmap <F6> :OmniSharpRename<CR>
 
 augroup mygroup
   autocmd!
@@ -177,15 +214,7 @@ augroup mygroup
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nmap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nmap <F4>  <Plug>(coc-fix-current)
+nnoremap č :echo "hello"<CR>
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
