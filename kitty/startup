@@ -1,1 +1,1 @@
-launch nvim -c ":term"
+launch /home/ennm/bin/nvim

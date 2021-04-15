@@ -6,11 +6,19 @@
     "javascript",
     "javascriptreact",
     "rust",
+    "terraform",
+    "go",
+    "cs",
     "css",
     "html",
     "json"
   ],
   "languageserver": {
+    "terraform": {
+      "command": "terraform-lsp",
+      "filetypes": ["terraform"],
+      "initializationOptions": {}
+    },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "objc", "objcpp"],
