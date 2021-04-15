@@ -19,14 +19,14 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'peitalin/vim-jsx-typescript'
-Plugin 'fatih/vim-go'
 Plugin 'rhysd/vim-clang-format'
 Plugin 'jparise/vim-graphql'
-Plugin 'jiangmiao/auto-pairs'
 Plugin 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plugin 'sheerun/vim-polyglot'
 Plugin 'OmniSharp/omnisharp-vim'
-Plugin 'dense-analysis/ale'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'SirVer/UltiSnips'
+Plugin 'editorconfig/editorconfig-vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -60,7 +60,12 @@ colors codedark
 """""""" Terminal emulation
 
 
-tnoremap <Esc> <C-\><C-n>
+tnoremap š <C-\><C-n>
+
+" Use đđ to start a terminal in insert mode
+nmap đđ :terminal<CR>A
+" Use ĐĐ to do that in a new window
+nmap ĐĐ <C-W>n:terminal<CR>A
 
 
 """""""" Indentation settings
@@ -74,6 +79,9 @@ autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescript
 """""""" Quality of life settings and keybindings
 
 
+
+noremap <silent> <C-b> :on<CR>
+
 " Return cursor to previous position when re-opening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
@@ -83,13 +91,18 @@ endif
 nnoremap <F1> /{}<CR>a<CR><ESC>O
 set nowrap
 set nohlsearch
-set nu
+set nonu
+" Remove ex mode, aka EVIL MODE
+map Q <Nop>
+
+" Execute current Python file on ćć
+autocmd BufEnter *.py nmap ćć :!python3 %<CR>
 
 
 """""""" NERDTree settings
 
 
-map <C-n> :NERDTreeToggle<CR>
+map <silent> <C-n> :NERDTreeToggle<CR>
 let g:NERDTreeQuitOnOpen=0
 let g:NERDTreeMinimalUI=1
 let g:NERDTreeWinPos="right"
@@ -98,8 +111,20 @@ let g:NERDTreeChDirMode=2
 let g:NERDTreeWinSize=55
 
 
-"""""""" COC/OmniSharp settings
+"""""""" CoC/OmniSharp settings
 
+
+let g:coc_global_extensions = ["coc-json", "coc-snippets", "coc-ultisnips", "coc-rust-analyzer"]
+
+let g:UltiSnipsExpandTrigger = "žž"
+let g:OmniSharp_want_snippet = 1
+
+let g:syntastic_cs_checkers = ['code_checker']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": ["cs"]}
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -126,9 +151,6 @@ if has("patch-8.1.1564")
 else
   set signcolumn=yes
 endif
-
-let g:OmniSharp_highlighting=0
-let g:ale_pattern_options={'': {'ale_enabled': 0},'\.cs$': {'ale_enabled': 1}}
 
 
 """""""" COC/OmniSharp keybindings
@@ -163,34 +185,43 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
+autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
+
 " Navigating diagnostics
 autocmd BufEnter * nmap <silent> <F2> <Plug>(coc-diagnostic-next)
-autocmd BufEnter *.cs nmap <silent> <F2> :ALENextWrap<CR>
 autocmd BufEnter * nmap <silent> <F14> <Plug>(coc-diagnostic-prev)
-autocmd BufEnter *.cs nmap <silent> <F14> :ALEPreviousWrap<CR>
+autocmd BufEnter *.cs nmap <silent> <F2> :lnext<CR>
+autocmd BufEnter *.cs nmap <silent> <F14> :lprevious<CR>
 
 " GoTo code navigation.
 autocmd BufEnter * nmap <silent> gd <Plug>(coc-definition)
-autocmd BufEnter *.cs nmap <silent> gd :OmniSharpGotoDefinition<CR>
+autocmd BufEnter *.cs nmap <silent> gd <Plug>(omnisharp_go_to_definition)
 
 autocmd BufEnter * nmap <silent> gi <Plug>(coc-implementation)
-autocmd BufEnter *.cs nmap <silent> gi :OmniSharpFindImplementations<CR>
+autocmd BufEnter *.cs nmap <silent> gi <Plug>(omnisharp_find_implementations)
 
 autocmd BufEnter * nmap <silent> gr <Plug>(coc-references)
-autocmd BufEnter *.cs nmap <silent> gr :OmniSharpFindReferences<CR>
+autocmd BufEnter *.cs nmap <silent> gr <Plug>(omnisharp_find_usages)
 
 autocmd BufEnter * nmap <silent> gy <Plug>(coc-type-definition)
 
 autocmd BufEnter * nmap <silent> ga <Plug>(coc-codeaction-line)
 autocmd BufEnter *.cs nmap <silent> ga <Plug>(omnisharp_code_actions)
 
+" Easy restarting
+nmap <silent> čč :silent CocRestart<CR>
+
+autocmd BufEnter * nmap <silent> čć :silent CocRestart<CR>
+autocmd BufEnter *.cs nmap <silent> čć <Plug>(omnisharp_restart_server)
+
+nmap čl :CocList sources<CR>
+
 " Use K to show documentation in preview window.
 autocmd BufEnter * nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd BufEnter *.cs nnoremap <silent> K :OmniSharpDocumentation<CR>
 
 " Formatting code
-autocmd BufEnter * nnoremap L <Plug>(coc-format)
-autocmd BufEnter *.cs nnoremap L :OmniSharpCodeFormat<CR>
+autocmd BufWritePre *.cs nnoremap <silent> L :OmniSharpCodeFormat<CR>
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -202,19 +233,16 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
-autocmd CursorHold *.cs OmniSharpTypeLookup
 
 " Symbol renaming.
 autocmd BufEnter * nmap <F6> <Plug>(coc-rename)
-autocmd BufEnter *.cs nmap <F6> :OmniSharpRename<CR>
+autocmd BufEnter *.cs nmap <F6> <Plug>(omnisharp_rename)
 
 augroup mygroup
   autocmd!
   " Update signature help on jump placeholder.
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
-
-nnoremap č :echo "hello"<CR>
 
 " Map function and class text objects
 " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
@@ -248,7 +276,8 @@ set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
 " Mappings using CoCList:
 " Show all diagnostics.
-nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+autocmd BufEnter * nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+autocmd BufEnter *.cs nnoremap <silent> <space>a :lopen<CR>
 " Manage extensions.
 nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
 " Show commands.
@@ -256,11 +285,11 @@ nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
 " Find symbol of current document.
 nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
 " Search workspace symbols.
-nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+autocmd BufEnter * nnoremap <silent> <space>s :<C-u>CocList -I symbols<cr>
+autocmd BufEnter *.cs nnoremap <space>s :OmniSharpFindSymbol 
 " Do default action for next item.
 nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 " Do default action for previous item.
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-

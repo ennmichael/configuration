@@ -1,11 +1,13 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.cargo/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/go/bin:$HOME/go/bin:$HOME/.cargo/bin:$HOME/.local/share/gem/ruby/2.7.0/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
 # Get IntelliJ working with dwm.
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+export COMPOSE_HTTP_TIMEOUT=180
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -103,14 +105,15 @@ export EDITOR='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH=$PATH:~/node-v12.2.0-linux-x64/
+export PATH=$PATH:~/node-v12.2.0-linux-x64/:~/.dotnet/:~/.dotnet/tools/:~/.local/bin
 
 alias vim=nvim
 
 export DENO_INSTALL="/home/doggs/.deno"
-export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/xc8/v2.31/bin:/opt/microchip/xc8/v2.31/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:/home/doggs/emsdk:/home/doggs/emsdk/node/12.18.1_64bit/bin:/home/doggs/emsdk/upstream/emscripten:$PATH"
+export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/xc8/v2.31/bin:/opt/microchip/xc8/v2.31/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/emsdk:$HOME/emsdk/upstream/emscripten:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/niksa/bin/terraform terraform
 
 source <(kubectl completion zsh)
+export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin";
