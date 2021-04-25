@@ -27,6 +27,7 @@ Plugin 'OmniSharp/omnisharp-vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'SirVer/UltiSnips'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'habamax/vim-godot'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -161,8 +162,6 @@ endif
 
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? coc#_select_confirm() :
-  \ coc#expandableOrJumpable() ?
-  \ "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
   \ <SID>check_back_space() ? "\<TAB>" :
   \ coc#refresh()
 
@@ -170,8 +169,6 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-let g:coc_snippet_next = '<tab>'
 
 " Use <c-space> to trigger completion.
 inoremap <silent><expr> <c-space> coc#refresh()
