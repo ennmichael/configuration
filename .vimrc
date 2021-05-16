@@ -24,7 +24,7 @@ Plugin 'jparise/vim-graphql'
 Plugin 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 Plugin 'sheerun/vim-polyglot'
 Plugin 'OmniSharp/omnisharp-vim'
-Plugin 'vim-syntastic/syntastic'
+Plugin 'dense-analysis/ale'
 Plugin 'SirVer/UltiSnips'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'habamax/vim-godot'
@@ -80,8 +80,8 @@ autocmd FileType typescript,javascript,typescript.tsx,javascriptreact,typescript
 """""""" Quality of life settings and keybindings
 
 
-
 noremap <silent> <C-b> :on<CR>
+set list
 
 " Return cursor to previous position when re-opening a file
 if has("autocmd")
@@ -115,9 +115,16 @@ let g:NERDTreeWinSize=55
 """""""" CoC/OmniSharp settings
 
 
-let g:coc_global_extensions = ["coc-json", "coc-snippets", "coc-ultisnips", "coc-rust-analyzer"]
+let g:ale_sign_error = '•'
+let g:ale_sign_warning = '•'
+let g:ale_sign_info = '•'
+let g:ale_sign_style_error = '•'
+let g:ale_sign_style_warning = '•'
 
-let g:UltiSnipsExpandTrigger = "žž"
+let g:ale_linters = { 'cs': ['OmniSharp'] }
+
+let g:coc_global_extensions = ["coc-json", "coc-snippets", "coc-ultisnips", "coc-rust-analyzer", "coc-tsserver", "coc-prettier"]
+
 let g:OmniSharp_want_snippet = 1
 
 let g:syntastic_cs_checkers = ['code_checker']
@@ -158,7 +165,7 @@ endif
 
 
 " Map <tab> for trigger completion, completion confirm, snippet expand and jump
-" like VSCode. 
+" like VSCode.
 
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? coc#_select_confirm() :
@@ -187,8 +194,8 @@ autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.org
 " Navigating diagnostics
 autocmd BufEnter * nmap <silent> <F2> <Plug>(coc-diagnostic-next)
 autocmd BufEnter * nmap <silent> <F14> <Plug>(coc-diagnostic-prev)
-autocmd BufEnter *.cs nmap <silent> <F2> :lnext<CR>
-autocmd BufEnter *.cs nmap <silent> <F14> :lprevious<CR>
+autocmd BufEnter *.cs nmap <silent> <F2> :ALENextWrap<CR>
+autocmd BufEnter *.cs nmap <silent> <F14> :ALEPreviousWrap<CR>
 
 " GoTo code navigation.
 autocmd BufEnter * nmap <silent> gd <Plug>(coc-definition)
