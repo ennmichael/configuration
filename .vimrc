@@ -28,6 +28,7 @@ Plugin 'dense-analysis/ale'
 Plugin 'SirVer/UltiSnips'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'habamax/vim-godot'
+Plugin 'inside/vim-search-pulse'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -120,19 +121,9 @@ let g:ale_sign_warning = '•'
 let g:ale_sign_info = '•'
 let g:ale_sign_style_error = '•'
 let g:ale_sign_style_warning = '•'
-
 let g:ale_linters = { 'cs': ['OmniSharp'] }
-
 let g:coc_global_extensions = ["coc-json", "coc-snippets", "coc-ultisnips", "coc-rust-analyzer", "coc-tsserver", "coc-prettier"]
-
 let g:OmniSharp_want_snippet = 1
-
-let g:syntastic_cs_checkers = ['code_checker']
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_mode_map = {"mode": "passive", "active_filetypes": ["cs"]}
 
 " TextEdit might fail if hidden is not set.
 set hidden
@@ -213,8 +204,6 @@ autocmd BufEnter * nmap <silent> ga <Plug>(coc-codeaction-line)
 autocmd BufEnter *.cs nmap <silent> ga <Plug>(omnisharp_code_actions)
 
 " Easy restarting
-nmap <silent> čč :silent CocRestart<CR>
-
 autocmd BufEnter * nmap <silent> čć :silent CocRestart<CR>
 autocmd BufEnter *.cs nmap <silent> čć <Plug>(omnisharp_restart_server)
 

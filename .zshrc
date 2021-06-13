@@ -105,11 +105,12 @@ export EDITOR='nvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH=$PATH:~/node-v12.2.0-linux-x64/:~/.dotnet/:~/.dotnet/tools/:~/.local/bin
+export PATH=$PATH:~/node-v12.2.0-linux-x64/:~/.dotnet/:~/.dotnet/tools/:~/.local/bin:$HOME/dotnet
 
 alias vim=nvim
 
 export DENO_INSTALL="/home/doggs/.deno"
+export DOTNET_ROOT=$HOME/dotnet
 export PATH="/opt/microchip/xc8/v2.30/bin:/opt/microchip/xc8/v2.30/pic-as/bin:/opt/microchip/xc8/v2.31/bin:/opt/microchip/xc8/v2.31/pic-as/bin:/opt/microchip/mplabx/v5.35/mplab_platform/bin/:$DENO_INSTALL/bin:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/emsdk:$HOME/emsdk/upstream/emscripten:$PATH"
 
 autoload -U +X bashcompinit && bashcompinit
@@ -117,3 +118,9 @@ complete -o nospace -C /home/niksa/bin/terraform terraform
 
 source <(kubectl completion zsh)
 export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin";
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/ennm/google-cloud-sdk/path.zsh.inc' ]; then . '/home/ennm/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/ennm/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/ennm/google-cloud-sdk/completion.zsh.inc'; fi
